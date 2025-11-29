@@ -1,5 +1,5 @@
-// Конфигурация
-const CONFIG = {
+// Конфигурация для страницы поста
+const BLOG_CONFIG = {
     postsPath: 'posts/'
 };
 
@@ -26,7 +26,7 @@ async function loadPost() {
     }
 
     try {
-        const response = await fetch(`${CONFIG.postsPath}${postId}.txt`);
+        const response = await fetch(`${BLOG_CONFIG.postsPath}${postId}.txt`);
         console.log('Response status:', response.status);
         
         if (!response.ok) throw new Error('Пост не найден');
