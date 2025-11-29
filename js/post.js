@@ -13,13 +13,15 @@ marked.setOptions({
 
 // Загрузка поста
 async function loadPost() {
+    console.log('=== DEBUG: loadPost started ===');
+    
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
 
-    console.log('=== DEBUG: Starting loadPost ===');
     console.log('Post ID:', postId);
 
     if (!postId) {
+        console.log('ERROR: No post ID');
         showError('Не указан идентификатор поста');
         return;
     }
@@ -30,35 +32,38 @@ async function loadPost() {
         
         const response = await fetch(filePath);
         console.log('Response status:', response.status);
-        console.log('Response OK:', response.ok);
+        console.log('Response URL:', response.url);
         
-        if (!response.ok) throw new Error('Пост не найден');
+        if (!response.ok) {
+            console.log('ERROR: Response not OK');
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
         
         const markdown = await response.text();
-        console.log('=== DEBUG: File content loaded ===');
-        console.log('Content length:', markdown.length);
-        console.log('First 300 chars:', markdown.substring(0, 300));
-        console.log('================');
+        console.log('SUCCESS: File loaded, length:', markdown.length);
         
+        if (markdown.length === 0) {
+            console.log('ERROR: File is empty');
+            throw new Error('Файл пустой');
+        }
+        
+        console.log('First 50 chars:', markdown.substring(0, 50));
         await renderPost(markdown, postId);
         
     } catch (error) {
-        console.error('Ошибка загрузки поста:', error);
+        console.error('CATCH: Error in loadPost:', error);
         showError('Не удалось загрузить статью: ' + error.message);
     }
 }
 
 // Рендер поста
 async function renderPost(markdown, postId) {
-    console.log('=== DEBUG: Starting renderPost ===');
+    console.log('=== DEBUG: renderPost started ===');
     
     try {
         const { content, metadata } = parseFrontmatter(markdown);
         
-        console.log('=== DEBUG: After parseFrontmatter ===');
         console.log('Metadata:', metadata);
-        console.log('Content length:', content.length);
-        console.log('Content start:', content.substring(0, 200));
         
         // Сначала устанавливаем метаданные
         document.title = `${metadata.title} | Юридический блог`;
@@ -76,7 +81,7 @@ async function renderPost(markdown, postId) {
         const htmlContent = marked.parse(content);
         document.getElementById('post-content').innerHTML = htmlContent;
         
-        console.log('=== DEBUG: Render complete ===');
+        console.log('=== DEBUG: renderPost completed ===');
         
     } catch (error) {
         console.error('Ошибка рендера поста:', error);
@@ -86,33 +91,52 @@ async function renderPost(markdown, postId) {
 
 // Парсинг фронтматера
 function parseFrontmatter(markdown) {
-    console.log('=== DEBUG: Starting parseFrontmatter ===');
+    console.log('=== DEBUG: parseFrontmatter started ===');
     
     try {
         // Упрощенный regex
-        const frontmatterRegex = /^---\s*\n?([\s\S]*?)---\s*\n?([\s\S]*)$/;
+        const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
         const match = markdown.match(frontmatterRegex);
         
-        console.log('Regex match result:', match);
+        console.log('Regex match:', match ? 'FOUND' : 'NOT FOUND');
         
         if (!match) {
-            console.warn('Frontmatter not found!');
-            console.log('First 10 lines of content:');
-            markdown.split('\n').slice(0, 10).forEach((line, i) => {
-                console.log(`${i}: "${line}"`);
+            console.log('Trying alternative regex...');
+            // Альтернативный regex
+            const altRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/;
+            const altMatch = markdown.match(altRegex);
+            console.log('Alternative regex match:', altMatch ? 'FOUND' : 'NOT FOUND');
+            
+            if (!altMatch) {
+                console.log('First 5 lines:');
+                markdown.split('\n').slice(0, 5).forEach((line, i) => {
+                    console.log(`${i}: ${JSON.stringify(line)}`);
+                });
+                return {
+                    content: markdown,
+                    metadata: { title: 'Статья без названия' }
+                };
+            }
+            
+            const frontmatter = altMatch[1];
+            const content = altMatch[2];
+            
+            const metadata = {};
+            frontmatter.split('\n').forEach(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine && trimmedLine.includes(':')) {
+                    const [key, ...valueParts] = trimmedLine.split(':');
+                    if (key && valueParts.length) {
+                        metadata[key.trim()] = valueParts.join(':').trim();
+                    }
+                }
             });
             
-            return {
-                content: markdown,
-                metadata: { title: 'Статья без названия' }
-            };
+            return { content, metadata };
         }
         
-        const frontmatter = match[1].trim();
-        const content = match[2].trim();
-        
-        console.log('Frontmatter raw:', frontmatter);
-        console.log('Content raw:', content.substring(0, 200));
+        const frontmatter = match[1];
+        const content = match[2];
         
         const metadata = {};
         frontmatter.split('\n').forEach(line => {
@@ -120,14 +144,12 @@ function parseFrontmatter(markdown) {
             if (trimmedLine && trimmedLine.includes(':')) {
                 const [key, ...valueParts] = trimmedLine.split(':');
                 if (key && valueParts.length) {
-                    const value = valueParts.join(':').trim();
-                    metadata[key.trim()] = value.replace(/^["']|["']$/g, '');
-                    console.log(`Parsed: ${key.trim()} = ${metadata[key.trim()]}`);
+                    metadata[key.trim()] = valueParts.join(':').trim();
                 }
             }
         });
         
-        console.log('Final metadata object:', metadata);
+        console.log('Parsed metadata:', metadata);
         return { content, metadata };
         
     } catch (error) {
