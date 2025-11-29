@@ -28,6 +28,7 @@ async function loadPost() {
         if (!response.ok) throw new Error('Пост не найден');
         
         const markdown = await response.text();
+        console.log('Raw content (first 500 chars):', markdown.substring(0, 500));
         await renderPost(markdown, postId);
         
     } catch (error) {
@@ -40,6 +41,9 @@ async function loadPost() {
 async function renderPost(markdown, postId) {
     try {
         const { content, metadata } = parseFrontmatter(markdown);
+        
+        console.log('Parsed metadata:', metadata);
+        console.log('Content start:', content.substring(0, 200));
         
         // Сначала устанавливаем метаданные
         document.title = `${metadata.title} | Юридический блог`;
@@ -66,11 +70,23 @@ async function renderPost(markdown, postId) {
 // Парсинг фронтматера
 function parseFrontmatter(markdown) {
     try {
-        const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
-        const match = markdown.match(frontmatterRegex);
+        console.log('Parsing frontmatter...');
+        
+        // Несколько вариантов regex для фронтматера
+        const frontmatterRegexes = [
+            /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/,  // стандартный
+            /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/, // с поддержкой Windows
+            /^---\s*\r?\n([\s\S]*?)\r?\n---\s*\r?\n([\s\S]*)$/ // универсальный
+        ];
+        
+        let match = null;
+        for (const regex of frontmatterRegexes) {
+            match = markdown.match(regex);
+            if (match) break;
+        }
         
         if (!match) {
-            console.warn('Frontmatter not found, using full content');
+            console.warn('Frontmatter not found. Full content:', markdown.substring(0, 300));
             return {
                 content: markdown,
                 metadata: { title: 'Статья без названия' }
@@ -80,18 +96,21 @@ function parseFrontmatter(markdown) {
         const frontmatter = match[1];
         const content = match[2];
         
+        console.log('Frontmatter found:', frontmatter);
+        console.log('Content after frontmatter:', content.substring(0, 200));
+        
         const metadata = {};
         frontmatter.split('\n').forEach(line => {
             const trimmedLine = line.trim();
             if (trimmedLine && trimmedLine.includes(':')) {
                 const [key, ...valueParts] = trimmedLine.split(':');
                 if (key && valueParts.length) {
-                    metadata[key.trim()] = valueParts.join(':').trim();
+                    metadata[key.trim()] = valueParts.join(':').trim().replace(/^"|"$/g, '');
                 }
             }
         });
         
-        console.log('Parsed metadata:', metadata);
+        console.log('Final metadata:', metadata);
         return { content, metadata };
         
     } catch (error) {
