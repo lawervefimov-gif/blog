@@ -16,14 +16,23 @@ async function loadPost() {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
 
+    console.log('Loading post:', postId);
+
     try {
         // Загружаем список постов чтобы взять метаданные
         const postsResponse = await fetch('posts/index.json');
         const posts = await postsResponse.json();
         const postMeta = posts.find(p => p.id === postId);
 
+        if (!postMeta) {
+            throw new Error('Пост не найден в index.json');
+        }
+
         // Загружаем контент поста
         const contentResponse = await fetch(`${BLOG_CONFIG.postsPath}${postId}.txt`);
+        if (!contentResponse.ok) {
+            throw new Error('Файл с контентом не найден');
+        }
         const content = await contentResponse.text();
 
         // Устанавливаем метаданные
@@ -44,6 +53,10 @@ async function loadPost() {
     } catch (error) {
         console.error('Ошибка:', error);
         document.getElementById('post-title').textContent = 'Ошибка';
+        document.getElementById('post-content').innerHTML = `
+            <p>${error.message}</p>
+            <p><a href="index.html">Вернуться к списку статей</a></p>
+        `;
     }
 }
 
