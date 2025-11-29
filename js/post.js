@@ -1,6 +1,6 @@
 // Конфигурация
 const CONFIG = {
-    postsPath: './posts/'
+    postsPath: 'posts/'
 };
 
 // Настройка Marked
