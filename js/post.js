@@ -27,7 +27,7 @@ async function loadPost() {
     }
 
     try {
-        const filePath = `${CONFIG.postsPath}${postId}.txt`;
+        const filePath = `${CONFIG.postsPath}${postId}.md`;
         console.log('Fetching from:', filePath);
         
         const response = await fetch(filePath);
