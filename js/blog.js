@@ -1,5 +1,5 @@
 // Конфигурация
-const CONFIG = {
+const POST_CONFIG = {
     postsPath: 'posts/'
 };
 
