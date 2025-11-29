@@ -17,6 +17,7 @@ async function loadPost() {
     const postId = urlParams.get('id');
 
     console.log('Loading post:', postId);
+    console.log('Trying path:', `${CONFIG.postsPath}${postId}.md`);
 
     if (!postId) {
         showError('Не указан идентификатор поста');
@@ -24,28 +25,17 @@ async function loadPost() {
     }
 
     try {
-        // Пробуем разные пути
-        const pathsToTry = [
-            `posts/${postId}.md`,
-            `./posts/${postId}.md`
-        ];
-
-        let response;
-        for (const path of pathsToTry) {
-            console.log('Trying path:', path);
-            response = await fetch(path);
-            if (response.ok) {
-                console.log('Success with path:', path);
-                break;
-            }
-        }
-
-        if (!response || !response.ok) {
-            throw new Error(`Пост не найден. Пробовали пути: ${pathsToTry.join(', ')}`);
+        const response = await fetch(`${CONFIG.postsPath}${postId}.md`);
+        
+        console.log('Response status:', response.status);
+        console.log('Response URL:', response.url);
+        
+        if (!response.ok) {
+            throw new Error(`Пост не найден по пути: ${CONFIG.postsPath}${postId}.md`);
         }
         
         const markdown = await response.text();
-        console.log('Markdown content (first 200 chars):', markdown.substring(0, 200));
+        console.log('Markdown loaded successfully');
         await renderPost(markdown, postId);
         
     } catch (error) {
