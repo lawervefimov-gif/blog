@@ -25,13 +25,13 @@ async function loadPost() {
     }
 
     try {
-        const response = await fetch(`${CONFIG.postsPath}${postId}.md`);
+        const response = await fetch(`${CONFIG.postsPath}${postId}.txt`);
         
         console.log('Response status:', response.status);
         console.log('Response URL:', response.url);
         
         if (!response.ok) {
-            throw new Error(`Пост не найден по пути: ${CONFIG.postsPath}${postId}.md`);
+            throw new Error(`Пост не найден по пути: ${CONFIG.postsPath}${postId}.txt`);
         }
         
         const markdown = await response.text();
