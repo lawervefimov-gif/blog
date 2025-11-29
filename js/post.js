@@ -17,7 +17,7 @@ async function loadPost() {
     const postId = urlParams.get('id');
 
     console.log('Loading post:', postId);
-    console.log('Trying path:', `${CONFIG.postsPath}${postId}.md`);
+    console.log('Trying path:', `${CONFIG.postsPath}${postId}.txt`);
 
     if (!postId) {
         showError('Не указан идентификатор поста');
