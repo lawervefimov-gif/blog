@@ -16,7 +16,8 @@ async function loadPost() {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
 
-    console.log('Loading post:', postId);
+    console.log('=== DEBUG: Starting loadPost ===');
+    console.log('Post ID:', postId);
 
     if (!postId) {
         showError('Не указан идентификатор поста');
@@ -24,25 +25,39 @@ async function loadPost() {
     }
 
     try {
-        const response = await fetch(`${CONFIG.postsPath}${postId}.txt`);
+        const filePath = `${CONFIG.postsPath}${postId}.txt`;
+        console.log('Fetching from:', filePath);
+        
+        const response = await fetch(filePath);
+        console.log('Response status:', response.status);
+        console.log('Response OK:', response.ok);
+        
         if (!response.ok) throw new Error('Пост не найден');
         
         const markdown = await response.text();
-        console.log('Raw content (first 500 chars):', markdown.substring(0, 500));
+        console.log('=== DEBUG: File content loaded ===');
+        console.log('Content length:', markdown.length);
+        console.log('First 300 chars:', markdown.substring(0, 300));
+        console.log('================');
+        
         await renderPost(markdown, postId);
         
     } catch (error) {
         console.error('Ошибка загрузки поста:', error);
-        showError('Не удалось загрузить статью');
+        showError('Не удалось загрузить статью: ' + error.message);
     }
 }
 
 // Рендер поста
 async function renderPost(markdown, postId) {
+    console.log('=== DEBUG: Starting renderPost ===');
+    
     try {
         const { content, metadata } = parseFrontmatter(markdown);
         
-        console.log('Parsed metadata:', metadata);
+        console.log('=== DEBUG: After parseFrontmatter ===');
+        console.log('Metadata:', metadata);
+        console.log('Content length:', content.length);
         console.log('Content start:', content.substring(0, 200));
         
         // Сначала устанавливаем метаданные
@@ -61,6 +76,8 @@ async function renderPost(markdown, postId) {
         const htmlContent = marked.parse(content);
         document.getElementById('post-content').innerHTML = htmlContent;
         
+        console.log('=== DEBUG: Render complete ===');
+        
     } catch (error) {
         console.error('Ошибка рендера поста:', error);
         showError('Ошибка отображения статьи: ' + error.message);
@@ -69,35 +86,33 @@ async function renderPost(markdown, postId) {
 
 // Парсинг фронтматера
 function parseFrontmatter(markdown) {
+    console.log('=== DEBUG: Starting parseFrontmatter ===');
+    
     try {
-        console.log('Parsing frontmatter...');
+        // Упрощенный regex
+        const frontmatterRegex = /^---\s*\n?([\s\S]*?)---\s*\n?([\s\S]*)$/;
+        const match = markdown.match(frontmatterRegex);
         
-        // Несколько вариантов regex для фронтматера
-        const frontmatterRegexes = [
-            /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/,  // стандартный
-            /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/, // с поддержкой Windows
-            /^---\s*\r?\n([\s\S]*?)\r?\n---\s*\r?\n([\s\S]*)$/ // универсальный
-        ];
-        
-        let match = null;
-        for (const regex of frontmatterRegexes) {
-            match = markdown.match(regex);
-            if (match) break;
-        }
+        console.log('Regex match result:', match);
         
         if (!match) {
-            console.warn('Frontmatter not found. Full content:', markdown.substring(0, 300));
+            console.warn('Frontmatter not found!');
+            console.log('First 10 lines of content:');
+            markdown.split('\n').slice(0, 10).forEach((line, i) => {
+                console.log(`${i}: "${line}"`);
+            });
+            
             return {
                 content: markdown,
                 metadata: { title: 'Статья без названия' }
             };
         }
         
-        const frontmatter = match[1];
-        const content = match[2];
+        const frontmatter = match[1].trim();
+        const content = match[2].trim();
         
-        console.log('Frontmatter found:', frontmatter);
-        console.log('Content after frontmatter:', content.substring(0, 200));
+        console.log('Frontmatter raw:', frontmatter);
+        console.log('Content raw:', content.substring(0, 200));
         
         const metadata = {};
         frontmatter.split('\n').forEach(line => {
@@ -105,12 +120,14 @@ function parseFrontmatter(markdown) {
             if (trimmedLine && trimmedLine.includes(':')) {
                 const [key, ...valueParts] = trimmedLine.split(':');
                 if (key && valueParts.length) {
-                    metadata[key.trim()] = valueParts.join(':').trim().replace(/^"|"$/g, '');
+                    const value = valueParts.join(':').trim();
+                    metadata[key.trim()] = value.replace(/^["']|["']$/g, '');
+                    console.log(`Parsed: ${key.trim()} = ${metadata[key.trim()]}`);
                 }
             }
         });
         
-        console.log('Final metadata:', metadata);
+        console.log('Final metadata object:', metadata);
         return { content, metadata };
         
     } catch (error) {
