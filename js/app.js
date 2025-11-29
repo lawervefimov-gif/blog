@@ -1,7 +1,7 @@
 // Конфигурация
 const CONFIG = {
-    postsIndex: '/blog/posts/index.json',
-    postsPath: '/blog/posts/'
+    postsIndex: './blog/posts/index.json',
+    postsPath: './blog/posts/'
 };
 
 // Загрузка списка постов
