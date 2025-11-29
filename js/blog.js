@@ -16,84 +16,35 @@ async function loadPost() {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
 
-    if (!postId) {
-        showError('Не указан идентификатор поста');
-        return;
-    }
-
     try {
-        const response = await fetch(`${BLOG_CONFIG.postsPath}${postId}.txt`);
-        if (!response.ok) throw new Error('Пост не найден');
+        // Загружаем список постов чтобы взять метаданные
+        const postsResponse = await fetch('posts/index.json');
+        const posts = await postsResponse.json();
+        const postMeta = posts.find(p => p.id === postId);
+
+        // Загружаем контент поста
+        const contentResponse = await fetch(`${BLOG_CONFIG.postsPath}${postId}.txt`);
+        const content = await contentResponse.text();
+
+        // Устанавливаем метаданные
+        document.title = `${postMeta.title} | Юридический блог`;
+        document.getElementById('post-title').textContent = postMeta.title;
         
-        const markdown = await response.text();
-        await renderPost(markdown, postId);
+        if (postMeta.date) {
+            document.getElementById('post-date').textContent = formatDate(postMeta.date);
+        }
+        
+        if (postMeta.author) {
+            document.getElementById('post-author').textContent = ` • ${postMeta.author}`;
+        }
+
+        // Рендерим контент
+        document.getElementById('post-content').innerHTML = marked.parse(content);
         
     } catch (error) {
-        console.error('Ошибка загрузки поста:', error);
-        showError('Не удалось загрузить статью');
+        console.error('Ошибка:', error);
+        document.getElementById('post-title').textContent = 'Ошибка';
     }
-}
-
-// Рендер поста
-async function renderPost(markdown, postId) {
-    try {
-        const { content, metadata } = parseFrontmatter(markdown);
-        
-        document.title = `${metadata.title} | Юридический блог`;
-        document.getElementById('post-title').textContent = metadata.title;
-        
-        if (metadata.date) {
-            document.getElementById('post-date').textContent = formatDate(metadata.date);
-        }
-        
-        if (metadata.author) {
-            document.getElementById('post-author').textContent = ` • ${metadata.author}`;
-        }
-        
-        const htmlContent = marked.parse(content);
-        document.getElementById('post-content').innerHTML = htmlContent;
-        
-    } catch (error) {
-        console.error('Ошибка рендера поста:', error);
-        showError('Ошибка отображения статьи: ' + error.message);
-    }
-}
-
-// Парсинг фронтматера
-function parseFrontmatter(markdown) {
-    const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
-    const match = markdown.match(frontmatterRegex);
-    
-    if (!match) {
-        return {
-            content: markdown,
-            metadata: { title: 'Статья без названия' }
-        };
-    }
-    
-    const frontmatter = match[1];
-    const content = match[2];
-    
-    const metadata = {};
-    frontmatter.split('\n').forEach(line => {
-        const [key, ...valueParts] = line.split(':');
-        if (key && valueParts.length) {
-            metadata[key.trim()] = valueParts.join(':').trim();
-        }
-    });
-    
-    return { content, metadata };
-}
-
-// Показ ошибки
-function showError(message) {
-    document.getElementById('post-title').textContent = 'Ошибка';
-    document.getElementById('post-content').innerHTML = `
-        <div class="error">
-            <p>${message}</p>
-            <p><a href="index.html">Вернуться к списку статей</a></p>
-        </div>
-    `;
 }
 
 // Форматирование даты
