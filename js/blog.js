@@ -69,6 +69,24 @@ function formatDate(dateString) {
         day: 'numeric'
     });
 }
+// Управление формой
+const modal = document.getElementById('contact-modal');
+const contactBtn = document.getElementById('contact-btn');
+const closeBtn = document.querySelector('.close');
+
+contactBtn.addEventListener('click', () => {
+    modal.style.display = 'block';
+});
+
+closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+    }
+});
 
 // Инициализация
 document.addEventListener('DOMContentLoaded', loadPost);
