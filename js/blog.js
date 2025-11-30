@@ -76,45 +76,40 @@ function initContactForm() {
     const contactBtn = document.getElementById('contact-btn');
     const closeBtn = document.querySelector('.close');
     
+    console.log('Поиск элементов формы:', {
+        modal: modal,
+        contactBtn: contactBtn,
+        closeBtn: closeBtn
+    });
+    
     if (contactBtn && modal && closeBtn) {
-        console.log('Инициализация формы...');
+        console.log('Элементы формы найдены, добавляем обработчики...');
         
         contactBtn.addEventListener('click', function() {
-            console.log('Кнопка нажата');
+            console.log('Кнопка нажата, открываем форму');
             modal.style.display = 'block';
         });
         
         closeBtn.addEventListener('click', function() {
+            console.log('Закрываем форму');
             modal.style.display = 'none';
         });
         
         window.addEventListener('click', function(e) {
             if (e.target === modal) {
+                console.log('Клик вне формы, закрываем');
                 modal.style.display = 'none';
             }
         });
         
-        // Обработка отправки формы
-        const contactForm = document.getElementById('contact-form');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                console.log('Форма отправлена');
-                // Formspree сам обработает отправку
-                this.submit();
-            });
-        }
     } else {
-        console.log('Элементы формы не найдены:', {
-            contactBtn: !!contactBtn,
-            modal: !!modal,
-            closeBtn: !!closeBtn
-        });
+        console.error('Элементы формы не найдены!');
     }
 }
 
-// Инициализация
-document.addEventListener('DOMContentLoaded', function() {
+// Инициализация после полной загрузки страницы
+window.addEventListener('load', function() {
+    console.log('Страница полностью загружена, инициализируем...');
     loadPost();
     initContactForm();
 });
