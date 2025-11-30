@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест: Риски отказа в ВНЖ</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .test-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #2c80ff;
+        }
+        
+        h2 {
+            color: #2c80ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .options label {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .options label:hover {
+            background: #e9ecef;
+        }
+        
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2c80ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #1a6fd8;
+        }
+        
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .risk-high {
+            border-left-color: #dc3545;
+        }
+        
+        .risk-medium {
+            border-left-color: #ffc107;
+        }
+        
+        .risk-low {
+            border-left-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h2>Тест: Оцените риск отказа в ВНЖ</h2>
+        
+        <form id="vnjTest">
+            <div class="question">
+                <h3>1. Какой у вас тип дохода?</h3>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="income" value="3" required>
+                        Официальный заработок по трудовому договору в России
+                    </label>
+                    <label>
+                        <input type="radio" name="income" value="2">
+                        Доход от бизнеса/ИП с полным пакетом документов
+                    </label>
+                    <label>
+                        <input type="radio" name="income" value="1">
+                        Неофициальные доходы или доходы за границей
+                    </label>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>2. Были ли у вас административные правонарушения в России?</h3>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="violations" value="1" required>
+                        Нет нарушений
+                    </label>
+                    <label>
+                        <input type="radio" name="violations" value="2">
+                        1-2 мелких нарушения (штрафы ГИБДД)
+                    </label>
+                    <label>
+                        <input type="radio" name="violations" value="3">
+                        Серьезные нарушения (нарушение миграционного режима)
+                    </label>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>3. Насколько полный пакет документов вы подготовили?</h3>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="documents" value="1" required>
+                        Все документы переведены, заверены и собраны по списку
+                    </label>
+                    <label>
+                        <input type="radio" name="documents" value="2">
+                        Есть небольшие расхождения в документах
+                    </label>
+                    <label>
+                        <input type="radio" name="documents" value="3">
+                        Многие документы отсутствуют или требуют исправлений
+                    </label>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>4. Соблюдаете ли вы миграционный режим?</h3>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="migration" value="1" required>
+                        Все сроки соблюдены, вовремя встал на учет
+                    </label>
+                    <label>
+                        <input type="radio" name="migration" value="2">
+                        Были небольшие просрочки (до 10 дней)
+                    </label>
+                    <label>
+                        <input type="radio" name="migration" value="3">
+                        Нарушал миграционные сроки более 30 дней
+                    </label>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>5. Есть ли у вас недвижимость в России?</h3>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="property" value="1" required>
+                        Да, есть собственная недвижимость
+                    </label>
+                    <label>
+                        <input type="radio" name="property" value="2">
+                        Арендую жилье по официальному договору
+                    </label>
+                    <label>
+                        <input type="radio" name="property" value="3">
+                        Живу у друзей/родственников без официальной регистрации
+                    </label>
+                </div>
+            </div>
+            
+            <button type="submit">Узнать результат</button>
+        </form>
+        
+        <div id="result" class="result">
+            <h3>Результат оценки рисков</h3>
+            <div id="resultText"></div>
+            <div id="recommendations"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('vnjTest').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            let totalScore = 0;
+            
+            for (let [name, value] of formData) {
+                totalScore += parseInt(value);
+            }
+            
+            const resultDiv = document.getElementById('result');
+            const resultText = document.getElementById('resultText');
+            const recommendations = document.getElementById('recommendations');
+            
+            let riskLevel = '';
+            let message = '';
+            let advice = '';
+            
+            if (totalScore <= 7) {
+                riskLevel = 'low';
+                message = '<p style="color: #28a745; font-weight: bold;">Низкий риск отказа</p>';
+                advice = `
+                    <p>Ваши шансы на получение ВНЖ высоки. Рекомендуем:</p>
+                    <ul>
+                        <li>Подать документы в запланированные сроки</li>
+                        <li>Проверить актуальность всех справок</li>
+                        <li>Проконсультироваться у юриста для финальной проверки документов</li>
+                    </ul>
+                `;
+            } else if (totalScore <= 12) {
+                riskLevel = 'medium';
+                message = '<p style="color: #ffc107; font-weight: bold;">Средний риск отказа</p>';
+                advice = `
+                    <p>Есть вероятность отказа. Необходимо:</p>
+                    <ul>
+                        <li>Исправить выявленные недочеты в документах</li>
+                        <li>Получить консультацию миграционного юриста</li>
+                        <li>Подготовить дополнительные подтверждающие документы</li>
+                        <li>Рассмотреть возможность подачи через юридическую компанию</li>
+                    </ul>
+                `;
+            } else {
+                riskLevel = 'high';
+                message = '<p style="color: #dc3545; font-weight: bold;">Высокий риск отказа</p>';
+                advice = `
+                    <p>Риск отказа значительный. Срочно требуется:</p>
+                    <ul>
+                        <li>Консультация профильного юриста</li>
+                        <li>Исправление миграционных нарушений</li>
+                        <li>Легализация доходов и статуса пребывания</li>
+                        <li>Разработка индивидуальной стратегии получения ВНЖ</li>
+                    </ul>
+                    <p><a href="#consultation" style="color: #2c80ff;">Запишитесь на срочную консультацию</a></p>
+                `;
+            }
+            
+            resultText.innerHTML = message;
+            recommendations.innerHTML = advice;
+            resultDiv.className = `result risk-${riskLevel}`;
+            resultDiv.style.display = 'block';
+            
+            // Прокрутка к результатам
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
