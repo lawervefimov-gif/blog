@@ -70,46 +70,52 @@ function formatDate(dateString) {
     });
 }
 
-// Управление формой
+// Управление формой - ПРОСТАЯ ВЕРСИЯ
 function initContactForm() {
+    console.log('=== INIT CONTACT FORM ===');
+    
     const modal = document.getElementById('contact-modal');
     const contactBtn = document.getElementById('contact-btn');
     const closeBtn = document.querySelector('.close');
     
-    console.log('Поиск элементов формы:', {
+    console.log('Найдены элементы:', {
         modal: modal,
-        contactBtn: contactBtn,
+        contactBtn: contactBtn, 
         closeBtn: closeBtn
     });
     
+    if (!modal) console.error('Модальное окно не найдено!');
+    if (!contactBtn) console.error('Кнопка не найдена!');
+    if (!closeBtn) console.error('Кнопка закрытия не найдена!');
+    
     if (contactBtn && modal && closeBtn) {
-        console.log('Элементы формы найдены, добавляем обработчики...');
+        console.log('Добавляем обработчики...');
         
-        contactBtn.addEventListener('click', function() {
-            console.log('Кнопка нажата, открываем форму');
+        contactBtn.onclick = function() {
+            console.log('Клик по кнопке!');
             modal.style.display = 'block';
-        });
+        };
         
-        closeBtn.addEventListener('click', function() {
-            console.log('Закрываем форму');
+        closeBtn.onclick = function() {
+            console.log('Закрытие формы');
             modal.style.display = 'none';
-        });
+        };
         
-        window.addEventListener('click', function(e) {
+        window.onclick = function(e) {
             if (e.target === modal) {
-                console.log('Клик вне формы, закрываем');
+                console.log('Клик вне формы');
                 modal.style.display = 'none';
             }
-        });
+        };
         
-    } else {
-        console.error('Элементы формы не найдены!');
+        console.log('Обработчики добавлены!');
     }
 }
 
-// Инициализация после полной загрузки страницы
-window.addEventListener('load', function() {
-    console.log('Страница полностью загружена, инициализируем...');
+// Запуск
+console.log('Blog.js загружен, ждем DOM...');
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM загружен, запускаем функции...');
     loadPost();
     initContactForm();
 });
