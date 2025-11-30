@@ -3,337 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ефимов Валерий - Юрист по арбитражным спорам и недвижимости</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-        body { background: #f8f9fa; color: #333; line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        header { background: #2c3e50; color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: bold; }
-        .nav-links { display: flex; list-style: none; gap: 2rem; }
-        .nav-links a { color: white; text-decoration: none; transition: color 0.3s; }
-        .nav-links a:hover { color: #3498db; }
-        
-        .hero { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 150px 0 100px; text-align: center; margin-top: 60px; }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
-        .cta-button { display: inline-block; background: #e74c3c; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background 0.3s; }
-        .cta-button:hover { background: #c0392b; }
-        
-        .services { padding: 80px 0; background: white; }
-        .section-title { text-align: center; margin-bottom: 3rem; font-size: 2.5rem; color: #2c3e50; }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .service-card { background: #f8f9fa; padding: 2rem; border-radius: 10px; text-align: center; transition: transform 0.3s; border: 1px solid #e9ecef; }
-        .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .service-icon { font-size: 3rem; margin-bottom: 1rem; color: #3498db; }
-        
-        /* СТИЛИ ДЛЯ ВИДЖЕТА 9111.RU */
-        .widget-section { 
-            background: #f8f9fa; 
-            padding: 80px 0; 
-            text-align: center; 
-        }
-        .widget-9111 {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); 
-            border: 1px solid #d1d7e0; 
-            padding: 30px; 
-            border-radius: 12px; 
-            max-width: 500px; 
-            margin: 0 auto;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .widget-9111:hover {
-            transform: translateY(-5px);
-        }
-        
-        .about { padding: 80px 0; background: #f8f9fa; }
-        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
-        .video-container {
-            margin-top: 2rem;
-            text-align: center;
-            grid-column: 1 / -1;
-        }
-        .video-container iframe {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .contact { padding: 80px 0; background: white; }
-        .contact-form { max-width: 600px; margin: 0 auto; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
-        .form-group textarea { height: 120px; resize: vertical; }
-        .submit-btn { background: #2c3e50; color: white; padding: 15px 30px; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
-        .submit-btn:hover { background: #3498db; }
-        
-        /* Стили для кнопки возврата */
-        .return-button {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: #2c3e50;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .return-button:hover {
-            background: #3498db;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-        
-        footer { background: #2c3e50; color: white; text-align: center; padding: 2rem 0; }
-        
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero h1 { font-size: 2rem; }
-            .about-content { grid-template-columns: 1fr; }
-            .video-container iframe {
-                height: 250px;
-            }
-            .widget-9111 {
-                margin: 0 15px;
-                padding: 20px;
-            }
-            .return-button {
-                bottom: 20px;
-                left: 20px;
-                padding: 10px 16px;
-                font-size: 14px;
-            }
-        }
-    </style>
+    <title>Юридический блог | Аналитика и консультации</title>
+    <meta name="description" content="Профессиональный юридический блог: анализ законов, судебная практика, консультации">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Кнопка возврата на главный сайт -->
-    <a href="https://efimov-legal.ru" class="return-button" title="Вернуться на главный сайт">
-        ← На главный сайт
-    </a>
-
-    <header>
+    <header class="header">
         <div class="container">
-            <nav>
-                <div class="logo">Ефимов Валерий</div>
-                <ul class="nav-links">
-                    <li><a href="#services">Услуги</a></li>
-                    <li><a href="#about">Обо мне</a></li>
-                   <li><a href="https://blog.efimov-legal.ru" target="_blank">📝 Наш блог</a></li>
-                    <li><a href="#contact">Контакты</a></li>
-                </ul>
-            </nav>
+            <h1>⚖️ Юридический блог</h1>
+            <p>Анализ законов, судебная практика, профессиональные консультации</p>
         </div>
     </header>
 
-    <section class="hero">
+    <main class="container">
+        <section class="search-section">
+            <input type="text" id="search-input" placeholder="Поиск по статьям...">
+        </section>
+
+        <section class="posts-list" id="posts-list">
+            <div class="loading">Загрузка статей...</div>
+        </section>
+    </main>
+
+    <footer class="footer">
         <div class="container">
-            <h1>Профессиональная юридическая защита</h1>
-            <p>Арбитражные споры, недвижимость, защита прав бизнеса. Опыт работы более 25 лет</p>
-            <a href="#contact" class="cta-button">Получить консультацию</a>
-        </div>
-    </section>
-
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title">Мои услуги</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">⚖️</div>
-                    <h3>Арбитражные споры</h3>
-                    <p>Защита интересов в арбитражных судах, взыскание долгов, споры с контрагентами</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🏠</div>
-                    <h3>Недвижимость</h3>
-                    <p>Юридическое сопровождение сделок, споры по недвижимости, права дольщиков</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🏢</div>
-                    <h3>Бизнес-консультирование</h3>
-                    <p>Правовое сопровождение бизнеса, договорная работа, корпоративные споры</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ВИДЖЕТ 9111.RU -->
-    <section class="widget-section">
-        <div class="container">
-            <h2 class="section-title">Отзывы клиентов</h2>
-            <div class="widget-9111">
-                <!-- Заголовок и рейтинг -->
-                <div style="text-align: center; margin-bottom: 25px;">
-                    <div style="font-size: 24px; font-weight: 700; color: #2c3e50;">Ефимов Валерий Павлович</div>
-                    <div style="font-size: 15px; color: #5d6d7e; margin-bottom: 15px;">Юрист на 9111.ru</div>
-                    
-                    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
-                        <div style="font-size: 42px; font-weight: 800; color: #e67e22; line-height: 1;">4.7</div>
-                        <div style="margin-left: 15px;">
-                            <div style="color: #f1c40f; font-size: 20px; letter-spacing: 2px;">★★★★★</div>
-                            <div style="font-size: 13px; color: #7f8c8d;">Рейтинг консультаций</div>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-around; font-size: 14px; color: #5d6d7e; margin-top: 20px;">
-                        <div style="text-align: center;">
-                            <div style="font-weight: 700; color: #2c3e50; font-size: 18px;">241 026</div>
-                            <div>посетили анкету</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-weight: 700; color: #2c3e50; font-size: 18px;">296</div>
-                            <div>за сутки</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Последние отзывы -->
-                <div style="background-color: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 1px solid #e9ecef;">
-                    <div style="font-size: 18px; font-weight: 700; color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #3498db; padding-bottom: 10px;">Последние отзывы:</div>
-                    
-                    <div class="review" style="border-left: 4px solid #3498db; padding-left: 15px; margin-bottom: 20px;">
-                        <div style="font-style: italic; color: #2c3e50; line-height: 1.5; font-size: 15px;">"Огромное спасибо за такой подробный и компетентный ответ!"</div>
-                        <div style="font-size: 13px; color: #7f8c8d; margin-top: 8px;">
-                            <span style="font-weight: 600;">Елена</span> (г. Саратов) • вчера
-                        </div>
-                    </div>
-                    
-                    <div class="review" style="border-left: 4px solid #2ecc71; padding-left: 15px; margin-bottom: 20px;">
-                        <div style="font-style: italic; color: #2c3e50; line-height: 1.5; font-size: 15px;">"Спасибо, буду действовать."</div>
-                        <div style="font-size: 13px; color: #7f8c8d; margin-top: 8px;">
-                            <span style="font-weight: 600;">Светлана</span> (г. Краснодар) • вчера
-                        </div>
-                    </div>
-                    
-                    <div class="review" style="border-left: 4px solid #9b59b6; padding-left: 15px;">
-                        <div style="font-style: italic; color: #2c3e50; line-height: 1.5; font-size: 15px;">"Благодарю за информацию!"</div>
-                        <div style="font-size: 13px; color: #7f8c8d; margin-top: 8px;">
-                            <span style="font-weight: 600;">Максим</span> (г. Ростов-на-Дону) • позавчера
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Кнопка -->
-                <a href="https://www.9111.ru/id-efimov_pravo/" target="_blank" 
-                   style="display: block; text-align: center; padding: 15px; 
-                          background: linear-gradient(to right, #2980b9, #2c5aa0); 
-                          color: white; text-decoration: none; border-radius: 8px; 
-                          font-weight: 600; font-size: 16px; 
-                          transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);"
-                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(41, 128, 185, 0.4)';"
-                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(41, 128, 185, 0.3)';">
-                    Читать все отзывы на 9111.ru
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">Обо мне</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Ефимов Валерий</h3>
-                    <p>Профессиональный юрист с более чем 25-летним опытом работы в области арбитражного права и недвижимости.</p>
-                    <p>Специализируюсь на сложных судебных спорах, защите прав предпринимателей и юридическом сопровождении сделок с недвижимостью.</p>
-                </div>
-                <div class="about-features">
-                    <div style="margin-bottom: 10px;">✅ Высшее юридическое образование</div>
-                    <div style="margin-bottom: 10px;">✅ Опыт работы более 25 лет</div>
-                    <div style="margin-bottom: 10px;">✅ 200+ успешных дел</div>
-                    <div style="margin-bottom: 10px;">✅ Индивидуальный подход</div>
-                </div>
-                <div class="video-container">
-                    <iframe width="560" height="315" src="//ok.ru/videoembed/10882167802411?nochat=1&autoplay=1" frameborder="0" allow="autoplay" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Свяжитесь со мной</h2>
-            <form class="contact-form" action="https://formspree.io/f/xnnyprpp" method="POST">
-                <div class="form-group">
-                    <label for="name">Ваше имя</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Телефон</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Сообщение</label>
-                    <textarea id="message" name="message" placeholder="Опишите вашу ситуацию..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Отправить заявку</button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>© 2024 Ефимов Валерий. Все права защищены.</p>
-            <p>Телефон: +7 (953) 907-75-75 | Email: lawer.v.efimov@gmail.com</p>
+            <p>&copy; 2024 Юридический блог. Все права защищены.</p>
+            <p>Информация носит ознакомительный характер.</p>
         </div>
     </footer>
 
-    <script>
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Form submission
-        const form = document.querySelector('.contact-form');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const formData = new FormData(form);
-            const submitBtn = form.querySelector('.submit-btn');
-            
-            submitBtn.textContent = 'Отправка...';
-            submitBtn.disabled = true;
-            
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
-                    alert('Заявка отправлена! Свяжусь с вами в ближайшее время.');
-                    form.reset();
-                } else {
-                    alert('Ошибка отправки. Пожалуйста, позвоните по телефону.');
-                }
-            } catch (error) {
-                alert('Ошибка сети. Попробуйте еще раз.');
-            } finally {
-                submitBtn.textContent = 'Отправить заявку';
-                submitBtn.disabled = false;
-            }
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
