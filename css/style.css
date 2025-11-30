@@ -79,10 +79,14 @@ body {
     border-color: #2ecc71;
 }
 
+.wa-btn {
+    background: rgba(37, 211, 102, 0.3);
+    border-color: #25D366;
+}
+
 .tg-btn {
     background: rgba(0, 136, 204, 0.3);
     border-color: #0088cc;
-    margin-left: auto;
 }
 
 /* Список постов */
@@ -369,12 +373,33 @@ body {
         text-align: center;
     }
     
-    .tg-btn {
-        margin-left: 0;
-    }
-    
     .contacts span {
         display: block;
         margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contacts a {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .phone {
+        font-size: 1rem;
+    }
+    
+    .header {
+        padding: 1.5rem 0;
+    }
+    
+    .floating-contact {
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    #contact-btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
     }
 }
