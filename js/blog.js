@@ -69,24 +69,52 @@ function formatDate(dateString) {
         day: 'numeric'
     });
 }
+
 // Управление формой
-const modal = document.getElementById('contact-modal');
-const contactBtn = document.getElementById('contact-btn');
-const closeBtn = document.querySelector('.close');
-
-contactBtn.addEventListener('click', () => {
-    modal.style.display = 'block';
-});
-
-closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        modal.style.display = 'none';
+function initContactForm() {
+    const modal = document.getElementById('contact-modal');
+    const contactBtn = document.getElementById('contact-btn');
+    const closeBtn = document.querySelector('.close');
+    
+    if (contactBtn && modal && closeBtn) {
+        console.log('Инициализация формы...');
+        
+        contactBtn.addEventListener('click', function() {
+            console.log('Кнопка нажата');
+            modal.style.display = 'block';
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Обработка отправки формы
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Форма отправлена');
+                // Formspree сам обработает отправку
+                this.submit();
+            });
+        }
+    } else {
+        console.log('Элементы формы не найдены:', {
+            contactBtn: !!contactBtn,
+            modal: !!modal,
+            closeBtn: !!closeBtn
+        });
     }
-});
+}
 
 // Инициализация
-document.addEventListener('DOMContentLoaded', loadPost);
+document.addEventListener('DOMContentLoaded', function() {
+    loadPost();
+    initContactForm();
+});
