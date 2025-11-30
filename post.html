@@ -36,5 +36,24 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="js/blog.js"></script>
+    <!-- Всплывающая форма -->
+<div id="contact-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>📞 Бесплатная консультация</h3>
+        <form id="contact-form" action="https://formspree.io/f/xnnyprpp" method="POST">
+            <input type="text" name="name" placeholder="Ваше имя" required>
+            <input type="tel" name="phone" placeholder="Телефон" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <textarea name="message" placeholder="Опишите вашу ситуацию..." rows="4"></textarea>
+            <button type="submit">Отправить заявку</button>
+        </form>
+    </div>
+</div>
+
+<!-- Кнопка вызова формы -->
+<div class="floating-contact">
+    <button id="contact-btn">📞 Консультация</button>
+</div>
 </body>
 </html>
